@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- single adapter for console -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!-- add timezone and millisecond; no %M or %L as they are expensive -->
+            <Pattern>
+                %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %c [%t] [%X] - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <!-- appender accumulation turned off to avoid duplicate logs -->
+    <logger name="cloud" level="info" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>
+
+
+        <!--
+        %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %c [%t] [%X] - %replace(%m{200}){"\r\n|\r|\n", " "} %replace(%rEx{200}){"\n", "#!NL!#"} %nopex %n
+        -->

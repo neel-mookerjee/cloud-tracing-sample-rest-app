@@ -1,0 +1,64 @@
+apply plugin: "java"
+apply plugin: "maven"
+apply plugin: "eclipse"
+apply plugin: "idea"
+apply plugin: "spring-boot"
+apply plugin: "io.spring.dependency-management"
+
+jar {
+    baseName = "cloud-tracing-sample-rest-app"
+}
+
+description = "Cloud Tracing Sample Rest App"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+buildscript {
+    ext {
+        springBootVersion = "1.3.3.RELEASE"
+        gradlePluginVersion = "0.5.6.RELEASE"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:dependency-management-plugin:${gradlePluginVersion}")
+    }
+}
+
+dependencyManagement {
+    dependencies {
+        ext {
+            springBootVersion = "1.3.3.RELEASE"
+            logbackVersion = "1.1.3"
+            tracingVersion = "1.0.0.RC3"
+        }
+        dependency("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+        dependency("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+        dependency("ch.qos.logback:logback-classic:${logbackVersion}")
+        dependency("cloud:cloud-client-context:${tracingVersion}")
+        dependency("cloud:cloud-tracing-http:${tracingVersion}")
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.1"
+}
+
+System.setProperty("org.gradle.color.failure", "RED")
+System.setProperty("org.gradle.color.progressstatus", "YELLOW")
+System.setProperty("org.gradle.color.success", "GREEN")
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("ch.qos.logback:logback-classic")
+
+    compile("cloud:cloud-client-context")
+    compile("cloud:cloud-tracing-http")
+}

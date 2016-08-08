@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+cloud:
+  tracing:
+    enabled: true
+  client:
+    context:
+      enabled: true
+
+jwt:
+  signature:
+    verify:
+      enabled: true
+      ignoreNullToken: true
+  expected:
+    issuer: token-service
+    audience: api-services
+  auth:
+    service:
+      x509:
+        url: https://token-service.apps.int.dev.mer.cfio/key/x509
+
+#  auth:
+#    service:
+#      x509:
+#        url: http://localhost:8090/key/x509
+
+
+## local config for demo only
+demo:
+  rest:
+    baseurl: "http://localhost:8080"
+    ## for cloud
+    # baseurl: "http://cloud-tracing-sample-rest-app.development.apps.int.dev.mer.cfio"
